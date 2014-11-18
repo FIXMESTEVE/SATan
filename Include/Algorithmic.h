@@ -8,10 +8,14 @@
 #ifndef INCLUDE_ALGORITHMIC_H_
 #define INCLUDE_ALGORITHMIC_H_
 
-void bruteForce(int graph[][], int k, int client[]) ;
+#include <vector>
 
-void approximation(int graph[][], int k, int client[]) ;
+using namespace std;
 
-void SAT(int graph[][], int k, int client[]) ;
+void bruteForce(vector<vector<int>> graph);
+
+void approximation(vector<vector<int>> graph);
+
+void SAT(vector<vector<int>> graph) ;
 
 #endif /* INCLUDE_ALGORITHMIC_H_ */
