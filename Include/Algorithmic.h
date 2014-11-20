@@ -10,12 +10,12 @@
 
 #include <vector>
 
-using namespace std;
+using namespace std ;
 
-void bruteForce(vector<vector<int>> graph);
+vector<int> bruteForce(vector<vector<int> > graph);
 
-void approximation(vector<vector<int>> graph);
+void approximation(vector<vector<int> > graph);
 
-void SAT(vector<vector<int>> graph) ;
+void SAT(vector<vector<int> > graph) ;
 
 #endif /* INCLUDE_ALGORITHMIC_H_ */
