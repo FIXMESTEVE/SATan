@@ -21,6 +21,6 @@ void generateGraph(int n) ;
 
 void writeResult(int res[], int t) ;
 
-vector<vector<int> > generateRandomGraph(int n) ;
+vector<vector<int> > generateRandomGraph(int n, int maxWeight = 10) ;
 
 #endif /* INCLUDE_UTILITY_H_ */
