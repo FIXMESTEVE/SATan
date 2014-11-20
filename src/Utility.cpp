@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-vector<vector<int> > generateRandomGraph(int n, int maxWeight = 10) {
+vector<vector<int> > generateRandomGraph(int n, int maxWeight /*= 10*/) {
 	/* initialize random seed: */
 	srand (time(NULL));
 
@@ -15,4 +15,5 @@ vector<vector<int> > generateRandomGraph(int n, int maxWeight = 10) {
 			res[j][i] = tmp ;
 		}
 	}
+	return res ;
 }
