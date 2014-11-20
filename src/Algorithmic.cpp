@@ -31,10 +31,6 @@ vector<int> bruteForce(vector<vector<int> > graph){
 	solution[n-1] = bestSol[n-1] = n-1 ;
 	int min = poids(graph, solution);
 
-	for(unsigned int i = 0 ; i < solution.size() ; i++)
-		printf("%d ", solution[i]) ;
-	printf("\n") ;
-
 	unsigned int i = 1 ;
 	while(i < n - 1){
 		--p[i];
