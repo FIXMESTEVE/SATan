@@ -21,14 +21,13 @@ void swap(vector<int> solution, int i, int j){
 
 vector<int> bruteForce(vector<vector<int> > graph){
 	int n = graph.size() ;
-	vector<int> solution;
-	vector<int> bestSol;
+	vector<int> solution (n);
+	vector<int> bestSol (n);
 	int min = poids(graph, solution);
 
-	vector<int> p;
+	vector<int> p (n-1);
 	for (int i = 0; i < n -1 ; i++)
 		p[i] = solution[i] = bestSol[i] = i;
-	p[n - 1] = n;
 	solution[n-1] = bestSol[n-1] = n-1 ;
 
 	int i = 1 ;
