@@ -15,11 +15,9 @@ using namespace std ;
 #define SIMPLE 0
 #define Matrix 1
 
-void readGraph(char* src, int type = SIMPLE) ;
+vector<vector<int> > readGraphFromMatrix(char* fileName) ;
 
-void generateGraph(int n) ;
-
-void writeResult(int res[], int t) ;
+vector<vector<int> > readGraphFromAdjList(char* fileName) ;
 
 vector<vector<int> > generateRandomGraph(int n, int maxWeight = 10) ;
 

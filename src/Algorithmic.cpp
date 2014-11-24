@@ -46,7 +46,7 @@ vector<int> bruteForce(vector<vector<int> > graph){
 	printf("%d/%ld\n",++cpt,NbPerm) ;
 
 	unsigned int i = 1 ;
-	while(i < n - 1){
+	while(i < ((unsigned int) n - 1)){
 		--p[i];
 		int j = (i % 2 == 1) ? p[i] : 0;
 		swap(&solution, i+1, j+1);
