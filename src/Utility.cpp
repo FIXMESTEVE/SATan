@@ -27,8 +27,47 @@ vector<vector<int> > generateRandomGraph(int n, int maxWeight /*= 10*/) {
 	return res ;
 }
 
+/*the files describing a graph must be as follow :
+ * N = n (n being the number of nodes)
+ * 0 : ... (a node ':' the adjacency list corresponding to this node)
+ * ...
+ * i : x0, x1, ... , x(n-1) (a node ':' xj = the weight of the edge between the nodes i and j)
+ * ...
+ * n - 1 : ...
+ */
+vector<vector<int> > readGraphFromMatrix(char* fileName) {
+	/*we open the stream */
+	std::fstream fs ;
+	fs.open (fileName, std::fstream::in) ;
 
-vector<vector<int> > readGraphFromMatrix(char* fileName) ;
+	/*we extract the number of nodes from the first line*/
+	char tmp[256] ; /* TODO : define the size of the line, it can be compute from the number of nodes */
+	fs.getline(tmp,256) ;
+	int index = 1 ;
+	int n = getInteger(tmp, &index, 256) ; /* and store it in n*/
+
+	/* we initiate the matrix */
+	vector<vector<int> > res ;
+	for(int i = 0 ; i < n ; i++) {
+		vector<int> tmp (n,0) ;
+		res.push_back(tmp) ;
+	}
+
+	/*for each nodes we extract the vector of weight*/
+	for(int i = 0 ; i < n ; i++) {
+		fs.getline(tmp,256) ;
+
+		int index = 1 ;
+		int currNode = getInteger(tmp,&index, 256) ;
+
+		for(int neighboor = 0 ; neighboor < n ; neighboor++) {
+			int weight = getInteger(tmp,&index, 256) ;
+			res[currNode][neighboor] = weight ;
+		}
+	}
+
+	return res ;
+}
 
 /*the files describing a graph must be as follow :
  * N = n (n being the number of nodes)
