@@ -138,4 +138,26 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 	}
 
 	//find a hamiltonian path from the minimum spanning tree
+	vector<int> cycle ;
+	cycle.push_back(edges[0][0]) ;
+	cycle.push_back(edges[0][1]) ;
+	std::vector<int>::iterator it = cycle.begin();
+
+	for(i = 1 ; i < edges.size() ; i ++) {
+		int u = edges[i][0] ;
+		int v = edges[i][1] ;
+		for(int j = 0 ; j < cycle.size() ; j++) {
+			if(u == cycle[j]) {
+				cycle.insert(it + j+1,v) ;
+				cycle.insert(it + j+2,u) ;
+				break ;
+			}
+			else if(v == cycle[j]) {
+				cycle.insert(it + j+1,u) ;
+				cycle.insert(it + j+2,v) ;
+				break ;
+			}
+		}
+	}
+	return cycle ;
 }

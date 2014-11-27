@@ -14,7 +14,7 @@ using namespace std ;
 
 vector<int> bruteForce(vector<vector<int> > graph);
 
-void approximation(vector<vector<int> > graph);
+vector<int> minimumSpanningTree(vector<vector<int> > graph);
 
 void SAT(vector<vector<int> > graph) ;
 
