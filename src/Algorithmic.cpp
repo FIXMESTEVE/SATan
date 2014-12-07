@@ -122,12 +122,15 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 			edges.push_back(currEdge) ;
 		}
 	}
+	printf("we add the edges") ;
 	//we sort 'edges'
-	quickSort(&edges, 0, edges.size(), graph) ;
+	quickSort(&edges, 0, edges.size()-1, graph) ;
+	printf("we sort the edges") ;
 
 	//we initialize the component
 	for(int i = 0 ; i < graph.size() ; i++)
 		component.push_back(i) ;
+	printf("we initialized the component") ;
 
 	int count = 0 ;
 	int i = 0 ;
@@ -136,10 +139,57 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 		int v = edges[i][1] ;
 		if(component[u] != component[v]) {
 			mst.push_back(edges[i]) ;
-			component[u] = component[v] ;
+			int uComp = component[u] ;
+			for(int j = 0 ; j < component.size() ; j++)
+				if(component[j] == uComp)
+					component[j] = component[v] ;
+			count++ ;
 		}
+		i++ ;
 	}
+	printf("we generated the mst\n") ;
+	for(int i = 0 ; i < mst.size() ; i++)
+		printf("(%d,%d)\n",mst[i][0],mst[i][1]) ;
 
 	return mst[0];
 	//find a hamiltonian path from the minimum spanning tree
+	vector<int> cycle ;
+	cycle.push_back(edges[0][0]) ;
+	cycle.push_back(edges[0][1]) ;
+	std::vector<int>::iterator it = cycle.begin();
+	printf("\nwe started creating the mst\n");
+	i = 1 ;
+	while(i < mst.size()) {
+		int u = mst[i][0] ;
+		int v = mst[i][1] ;
+		printf("we extract the edges\n") ;
+		bool added = true ;
+		for(int j = 0 ; j < cycle.size() ; j++) {
+			if(u == cycle[j]) {
+				printf("we add them (1)\n") ;
+				printf("%d et %d\n", cycle.size(), j+1) ;
+				cycle.insert(it + j+1,v) ;
+				printf("%d et %d\n", cycle.size(), j+2) ;
+				cycle.insert(it + j+2,u) ;
+				printf("done\n");
+				it = cycle.begin();
+				break ;
+			}
+			else if(v == cycle[j]) {
+				printf("we add them (2)\n") ;
+				printf("%d et %d\n", cycle.size(), j+1) ;
+				cycle.insert(it + j+1,u) ;
+				printf("%d et %d\n", cycle.size(), j+2) ;
+				cycle.insert(it + j+2,v) ;
+				printf("done\n");
+				it = cycle.begin();
+				break ;
+			}
+		}
+		if(!added)
+			edges.push_back(edges[i]) ;
+		i++ ;
+	}
+	printf("we found the hamiltonian path") ;
+	return cycle ;
 }
