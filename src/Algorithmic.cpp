@@ -4,6 +4,9 @@
 #include "../include/Algorithmic.h"
 #include <stdio.h>
 #include <time.h>
+#include <iostream>
+#include <process.h>
+
 
 int poids(vector<vector<int> > graph, vector<int> solution){
 	int res = 0 ;
@@ -137,5 +140,6 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 		}
 	}
 
+	return mst[0];
 	//find a hamiltonian path from the minimum spanning tree
 }
