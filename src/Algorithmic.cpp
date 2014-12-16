@@ -77,6 +77,40 @@ vector<int> bruteForce(vector<vector<int> > graph){
 	return bestSol ;
 }
 
+
+//Backtracking implementation
+//algorithm from http://www.win.tue.nl/~kbuchin/teaching/2IL15/backtracking.pdf
+vector<int> backTracking(vector<vector<int> > graph, vector<int> cycle, int l = 0, int currLength = -1, int minCost = 1) {
+	int n = graph.size() ;
+
+	if(cycle.size() == 0)
+		for(int i = 0 ; i < n ; i++)
+			cycle.push_back(i) ;
+
+	vector<int> bestSol = cycle ;
+
+	if( l == n) {
+		minCost = min(minCost, currLength + graph[cycle[0]][cycle[n-1]]) ;
+	} else {
+		for(int i = l + 2 ; i < n ; i++) {
+			swap(&cycle, l+1, i) ;
+			int newLength = currLength + graph[cycle[l]][cycle[l+1]] ;
+			if( newLength < minCost) {
+				vector<int> currSol = backTracking(graph, cycle, l + 1, newLength, minCost) ;
+				int currMin = poids(graph, currSol) ;
+				if(currMin < minCost) {
+					minCost = currMin ;
+					bestSol = currSol ;
+				}
+			}
+			swap(&cycle, l+1, i) ;
+		}
+
+	}
+
+	return bestSol ;
+}
+
 int edgeWeight(vector<int> edge, vector<vector<int> > graph) {
 	return graph[edge[0]][edge[1]] ;
 }
@@ -122,15 +156,13 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 			edges.push_back(currEdge) ;
 		}
 	}
-	printf("we add the edges") ;
+
 	//we sort 'edges'
 	quickSort(&edges, 0, edges.size()-1, graph) ;
-	printf("we sort the edges") ;
 
 	//we initialize the component
 	for(int i = 0 ; i < graph.size() ; i++)
 		component.push_back(i) ;
-	printf("we initialized the component") ;
 
 	int count = 0 ;
 	int i = 0 ;
@@ -147,49 +179,54 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 		}
 		i++ ;
 	}
-	printf("we generated the mst\n") ;
-	for(int i = 0 ; i < mst.size() ; i++)
-		printf("(%d,%d)\n",mst[i][0],mst[i][1]) ;
 
-	return mst[0];
 	//find a hamiltonian path from the minimum spanning tree
 	vector<int> cycle ;
 	cycle.push_back(edges[0][0]) ;
 	cycle.push_back(edges[0][1]) ;
-	std::vector<int>::iterator it = cycle.begin();
-	printf("\nwe started creating the mst\n");
+
 	i = 1 ;
-	while(i < mst.size()) {
+	int cpt = 0 ;
+	int cycleSize = mst.size() ;
+	while(cpt < cycleSize - 1) {
 		int u = mst[i][0] ;
 		int v = mst[i][1] ;
-		printf("we extract the edges\n") ;
-		bool added = true ;
+		bool added = false ;
 		for(int j = 0 ; j < cycle.size() ; j++) {
 			if(u == cycle[j]) {
-				printf("we add them (1)\n") ;
-				printf("%d et %d\n", cycle.size(), j+1) ;
-				cycle.insert(it + j+1,v) ;
-				printf("%d et %d\n", cycle.size(), j+2) ;
-				cycle.insert(it + j+2,u) ;
-				printf("done\n");
-				it = cycle.begin();
+				if(j+1 == cycle.size()) {
+					cycle.push_back(v) ;
+					cycle.push_back(u) ;
+				} else {
+					cycle.insert(cycle.begin() + j+1,v) ;
+					cycle.insert(cycle.begin() + j+2,u) ;
+				}
+				for(int tmp = 0 ; tmp < cycle.size() ; tmp++)
+					cout << cycle[tmp] << " " ;
+				cout << '\n' ;
+				cpt++ ;
+				added = true ;
 				break ;
 			}
 			else if(v == cycle[j]) {
-				printf("we add them (2)\n") ;
-				printf("%d et %d\n", cycle.size(), j+1) ;
-				cycle.insert(it + j+1,u) ;
-				printf("%d et %d\n", cycle.size(), j+2) ;
-				cycle.insert(it + j+2,v) ;
-				printf("done\n");
-				it = cycle.begin();
+				if(j+1 == cycle.size()) {
+					cycle.push_back(u) ;
+					cycle.push_back(v) ;
+				} else {
+					cycle.insert(cycle.begin() + j+1,u) ;
+					cycle.insert(cycle.begin() + j+2,v) ;
+				}
+				for(int tmp = 0 ; tmp < cycle.size() ; tmp++)
+					cout << cycle[tmp] << " " ;
+				cout << '\n' ;
+				cpt++ ;
+				added = true ;
 				break ;
 			}
 		}
 		if(!added)
-			edges.push_back(edges[i]) ;
+			mst.push_back(edges[i]) ;
 		i++ ;
 	}
-	printf("we found the hamiltonian path") ;
 	return cycle ;
 }

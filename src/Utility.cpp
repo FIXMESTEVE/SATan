@@ -132,9 +132,9 @@ int getInteger(char* src, int* i, int size) {
 	return res ;
 }
 
-
+/*
 void generateGraph(){
 	//TODO: test that. couldn't test because gengraph won't compile on windows.
 	std::system("./gengraph.exe --format list clique 5 > out.txt");
 	readGraphFromAdjList("out.txt");
-}
+}*/
