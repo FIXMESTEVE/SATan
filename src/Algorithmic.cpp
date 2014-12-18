@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <time.h>
 #include <iostream>
-#include <process.h>
 
 
 int poids(vector<vector<int> > graph, vector<int> solution){
