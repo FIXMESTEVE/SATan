@@ -9,7 +9,7 @@
 #include <process.h>
 #endif
 
-int getInteger(char* src, int* i, int size) ;
+int getInteger(string src, int* i) ;
 
 vector<vector<int> > generateRandomGraph(int n, int maxWeight /*= 10*/) {
 	/* initialize random seed: */
@@ -46,10 +46,10 @@ vector<vector<int> > readGraphFromMatrix(char* fileName) {
 	fs.open (fileName, std::fstream::in) ;
 
 	/*we extract the number of nodes from the first line*/
-	char tmp[256] ; /* TODO : define the size of the line, it can be compute from the number of nodes */
-	fs.getline(tmp,256) ;
+	string tmp ; /* TODO : define the size of the line, it can be compute from the number of nodes */
+	getline(fs, tmp) ;
 	int index = 1 ;
-	int n = getInteger(tmp, &index, 256) ; /* and store it in n*/
+	int n = getInteger(tmp, &index) ; /* and store it in n*/
 
 	/* we initiate the matrix */
 	vector<vector<int> > res ;
@@ -60,13 +60,13 @@ vector<vector<int> > readGraphFromMatrix(char* fileName) {
 
 	/*for each nodes we extract the vector of weight*/
 	for(int i = 0 ; i < n ; i++) {
-		fs.getline(tmp,256) ;
+		getline(fs, tmp) ;
 
 		int index = 1 ;
-		int currNode = getInteger(tmp,&index, 256) ;
+		int currNode = getInteger(tmp,&index) ;
 
 		for(int neighboor = 0 ; neighboor < n ; neighboor++) {
-			int weight = getInteger(tmp,&index, 256) ;
+			int weight = getInteger(tmp,&index) ;
 			res[currNode][neighboor] = weight ;
 		}
 	}
@@ -85,13 +85,13 @@ vector<vector<int> > readGraphFromMatrix(char* fileName) {
 vector<vector<int> > readGraphFromAdjList(char* fileName) {
 	/*we open the stream */
 	std::fstream fs ;
-	fs.open (fileName, std::fstream::in) ;
+	fs.open(fileName, std::fstream::in) ;
 
 	/*we extract the number of nodes from the first line*/
-	char tmp[256] ; /* TODO : define the size of the line, it can be computed from the number of nodes */
-	fs.getline(tmp,256) ;
+	string tmp ;
+	getline(fs, tmp) ;
 	int index = 0 ;
-	int n = getInteger(tmp, &index, 256) ; /* and store it in n*/
+	int n = getInteger(tmp, &index) ; /* and store it in n*/
 
 	/* we initiate the matrix */
 	vector<vector<int> > res ;
@@ -103,18 +103,18 @@ vector<vector<int> > readGraphFromAdjList(char* fileName) {
 
 	/*for each nodes we extract the adjacency list*/
 	for(int i = 0 ; i < n ; i++) {
-		fs.getline(tmp,256) ;
+		getline(fs,tmp) ;
 cout << "tmp == " << tmp << endl;
 		int index = 0 ;
-		int currNode = getInteger(tmp,&index, 256) ;
+		int currNode = getInteger(tmp,&index) ;
 		cout << currNode << " : ";
-		while(index < 256) {
-			int neighboor = getInteger(tmp,&index, 256) ;
+
+		int neighboor = getInteger(tmp,&index) ;
+		while(neighboor != -1) {
 			cout << neighboor << " ";
-			if(neighboor != -1) {
-				res[currNode][neighboor] = 1 ;
-				res[neighboor][currNode] = 1 ;
-			}
+			res[currNode][neighboor] = 1 ;
+			res[neighboor][currNode] = 1 ;
+			neighboor = getInteger(tmp,&index) ;
 		}
 		cout << endl;
 	}
@@ -122,29 +122,23 @@ cout << "tmp == " << tmp << endl;
 	return res ;
 }
 
-int getInteger(char* src, int* i, int size) {
+int getInteger(string src, int* i) {
 	int res = -1 ;
 	/* we look for the next integer*/
-	int index = *i ;
-	int tmp = src[index] ;
-	while((tmp < '0' || tmp > '9') && (index < size && tmp != '\0')) {// the value in tmp[i]
-		(*i) = ++index ;
-		tmp = src[index] ;
+	int tmp = src[(*i)] ;
+	while((tmp < '0' || tmp > '9') && (tmp != '\0')) {// the value in tmp[i]
+		tmp = src[++(*i)] ;
 	}
-	if((tmp >= '0' && tmp <= '9') && (index < size && tmp != '\0'))
+	if((tmp >= '0' && tmp <= '9') && (tmp != '\0'))
 		res++ ;
-	else
-		(*i) = size;
 	/*and we extract it*/
-	while((tmp >= '0' && tmp <= '9') && (index < size && tmp != '\0')) {
+	while((tmp >= '0' && tmp <= '9') && (tmp != '\0')) {
 		res *= 10 ;
 		res += tmp - '0' ;
-		(*i) = ++index ;
-		tmp = src[index] ;
+		tmp = src[++(*i)] ;
 	}
 	return res ;
 }
-
 
 vector<vector<int> > generateGraph(int n, float p){
 	std::string nStr;
