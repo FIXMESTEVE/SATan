@@ -6,15 +6,33 @@
 #include <time.h>
 #include <iostream>
 
+#define WEIGHTED   0
+#define DISCRETE   1
 
-int poids(vector<vector<int> > graph, vector<int> solution){
+
+int poids(vector<vector<int> > graph, vector<int> solution, int type){
 	int res = 0 ;
 	int index = graph.size() - 1;
 
-	for(int i = 0 ; i < index ; i++)
-		res += graph[solution[i]][solution[i+1]] ;
+	if(type == WEIGHTED) {
+		for(int i = 0 ; i < index ; i++) {
+			res += graph[solution[i]][solution[i+1]] ;
+		}
+	} else {
+		for(int i = 0 ; i < index ; i++) {
+			if( graph[solution[i]][solution[i+1]] == 10 ) {
+				res += 1 ;
+			}
+		}
+	}
 
-	return res + graph[index][0] ;
+	if(type == WEIGHTED) {
+		return res + graph[index][0] ;
+	} else {
+		if(graph[index][0] == 10 ) {
+			return res + 1 ;
+		}
+	}
 }
 
 void swap(vector<int> *solution, int i, int j){
@@ -29,7 +47,7 @@ long int factorielle(long int n) {
 	return n * factorielle(n-1) ;
 }
 
-vector<int> bruteForce(vector<vector<int> > graph){
+vector<int> bruteForce(vector<vector<int> > graph, int type){
 	int n = graph.size() ;
 	vector<int> solution (n);
 	vector<int> bestSol (n);
@@ -38,7 +56,7 @@ vector<int> bruteForce(vector<vector<int> > graph){
 	for (int i = 0; i < n -1 ; i++)
 		p[i] = solution[i] = bestSol[i] = i;
 	solution[n-1] = bestSol[n-1] = n-1 ;
-	int min = poids(graph, solution);
+	int min = poids(graph, solution, type);
 
 	int cpt = 0 ;
 	long int NbPerm = factorielle(n-1) ;
@@ -53,7 +71,7 @@ vector<int> bruteForce(vector<vector<int> > graph){
 		int j = (i % 2 == 1) ? p[i] : 0;
 		swap(&solution, i+1, j+1);
 
-		int tmp = poids(graph, solution);
+		int tmp = poids(graph, solution, type);
 		++cpt ;
 
 		time_t t2 ;
@@ -79,7 +97,7 @@ vector<int> bruteForce(vector<vector<int> > graph){
 
 //Backtracking implementation
 //algorithm from http://www.win.tue.nl/~kbuchin/teaching/2IL15/backtracking.pdf
-vector<int> backTracking(vector<vector<int> > graph, vector<int> cycle, int l = 0, int currLength = -1, int minCost = 1) {
+vector<int> backTracking(vector<vector<int> > graph, vector<int> cycle, int type, int l, int currLength, int minCost) {
 	int n = graph.size() ;
 
 	if(cycle.size() == 0)
@@ -95,8 +113,8 @@ vector<int> backTracking(vector<vector<int> > graph, vector<int> cycle, int l = 
 			swap(&cycle, l+1, i) ;
 			int newLength = currLength + graph[cycle[l]][cycle[l+1]] ;
 			if( newLength < minCost) {
-				vector<int> currSol = backTracking(graph, cycle, l + 1, newLength, minCost) ;
-				int currMin = poids(graph, currSol) ;
+				vector<int> currSol = backTracking(graph, cycle, type, l + 1, newLength, minCost) ;
+				int currMin = poids(graph, currSol, type) ;
 				if(currMin < minCost) {
 					minCost = currMin ;
 					bestSol = currSol ;
