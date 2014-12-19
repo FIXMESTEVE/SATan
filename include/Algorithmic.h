@@ -15,9 +15,12 @@
 
 using namespace std ;
 
+int poids(vector<vector<int> > graph, vector<int> solution, int type = WEIGHTED, bool verbose = false);
+
 vector<int> bruteForce(vector<vector<int> > graph, int type = WEIGHTED);
 
-vector<int> backTracking(vector<vector<int> > graph, int type = WEIGHTED, int l = 0, int currLength = -1, int minCost = 1);
+int backTracking(vector<vector<int> > graph, int type = WEIGHTED);
+int backTracking_(vector<vector<int> > graph, int type, vector<int> cycle, int l, int currLength, int minCost);
 
 vector<int> minimumSpanningTree(vector<vector<int> > graph);
 

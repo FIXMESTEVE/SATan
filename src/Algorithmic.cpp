@@ -2,34 +2,32 @@
 //algorithm from www.quickperm.org
 
 #include "../include/Algorithmic.h"
-#include <stdio.h>
-#include <time.h>
 #include <iostream>
+#include <fstream>
 
 #define WEIGHTED   0
 #define DISCRETE   1
 
 
-int poids(vector<vector<int> > graph, vector<int> solution, int type){
+int poids(vector<vector<int> > graph, vector<int> solution, int type, bool verbose){
 	int res = 0 ;
 	int index = graph.size() - 1;
 
 	if(type == WEIGHTED) {
 		for(int i = 0 ; i < index ; i++) {
 			res += graph[solution[i]][solution[i+1]] ;
+			if(verbose) cout << graph[solution[i]][solution[i+1]] << " ";
 		}
-	} else {
+		if(verbose) cout << graph[solution[index]][solution[0]] << endl ;
+		return res + graph[index][0] ;
+	} 
+	else {
 		for(int i = 0 ; i < index ; i++) {
 			if( graph[solution[i]][solution[i+1]] == 10 ) {
 				res += 1 ;
 			}
 		}
-	}
-
-	if(type == WEIGHTED) {
-		return res + graph[index][0] ;
-	} else {
-		if(graph[index][0] == 10 ) {
+		if(graph[solution[index]][solution[0]] == 10 ) {
 			return res + 1 ;
 		}
 	}
@@ -97,35 +95,40 @@ vector<int> bruteForce(vector<vector<int> > graph, int type){
 
 //Backtracking implementation
 //algorithm from http://www.win.tue.nl/~kbuchin/teaching/2IL15/backtracking.pdf
-vector<int> backTracking(vector<vector<int> > graph, vector<int> cycle, int type, int l, int currLength, int minCost) {
-	int n = graph.size() ;
+int backTracking(vector<vector<int> > graph, int type) {
+	vector<int> begin ;
+	for(int i = 0 ; i < graph.size() ; i++)
+		begin.push_back(i) ;
 
-	if(cycle.size() == 0)
-		for(int i = 0 ; i < n ; i++)
-			cycle.push_back(i) ;
+	int minCost = poids(graph, begin, type) ;
 
-	vector<int> bestSol = cycle ;
 
-	if( l == n) {
-		minCost = min(minCost, currLength + graph[cycle[0]][cycle[n-1]]) ;
-	} else {
-		for(int i = l + 2 ; i < n ; i++) {
-			swap(&cycle, l+1, i) ;
-			int newLength = currLength + graph[cycle[l]][cycle[l+1]] ;
-			if( newLength < minCost) {
-				vector<int> currSol = backTracking(graph, cycle, type, l + 1, newLength, minCost) ;
-				int currMin = poids(graph, currSol, type) ;
-				if(currMin < minCost) {
-					minCost = currMin ;
-					bestSol = currSol ;
+	return backTracking_(graph, type, begin, 0, 0, minCost);
+}
+
+int backTracking_(vector<vector<int> > graph, int type, vector<int> A, int l, int lengthSoFar, int minCost) {
+	int n = A.size() ;
+
+	if(l == n) {
+		int newCost = lengthSoFar + graph[A[n-1]][A[0]] ;
+		if(newCost < minCost)
+			minCost = newCost ;
+	}
+	else {
+		for(int i = l ; i < n ; i++) {
+			swap(&A, l, i) ;
+			int newLength = lengthSoFar + graph[A[l-1]][A[l]] ;
+			if(newLength <= minCost) {
+				int newCost = backTracking_(graph, type, A, l+1, newLength, minCost) ;
+				if(newCost < minCost) {
+					minCost = newCost ;
 				}
 			}
-			swap(&cycle, l+1, i) ;
+			swap(&A, l, i) ;
 		}
-
 	}
 
-	return bestSol ;
+	return minCost ;
 }
 
 int edgeWeight(vector<int> edge, vector<vector<int> > graph) {
@@ -218,9 +221,6 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 					cycle.insert(cycle.begin() + j+1,v) ;
 					cycle.insert(cycle.begin() + j+2,u) ;
 				}
-				for(int tmp = 0 ; tmp < cycle.size() ; tmp++)
-					cout << cycle[tmp] << " " ;
-				cout << '\n' ;
 				cpt++ ;
 				added = true ;
 				break ;
@@ -233,9 +233,6 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 					cycle.insert(cycle.begin() + j+1,u) ;
 					cycle.insert(cycle.begin() + j+2,v) ;
 				}
-				for(int tmp = 0 ; tmp < cycle.size() ; tmp++)
-					cout << cycle[tmp] << " " ;
-				cout << '\n' ;
 				cpt++ ;
 				added = true ;
 				break ;
