@@ -15,6 +15,9 @@ using namespace std ;
 #define SIMPLE 0
 #define Matrix 1
 
+enum Algorithms { BRUTE, BT, MST, sat };
+enum Modes { WEIGHTED, DISCRETE };
+
 vector<vector<int> > readGraphFromMatrix(char* fileName) ;
 
 vector<vector<int> > readGraphFromAdjList(char* fileName) ;

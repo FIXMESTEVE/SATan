@@ -9,6 +9,7 @@
 #include <process.h>
 #endif
 
+
 int getInteger(string src, int* i) ;
 
 vector<vector<int> > generateRandomGraph(int n, int maxWeight /*= 10*/) {
