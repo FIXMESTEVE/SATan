@@ -40,7 +40,7 @@ vector<vector<int> > generateRandomGraph(int n, int maxWeight /*= 10*/) {
  * ...
  * n - 1 : ...
  */
-vector<vector<int> > readGraphFromMatrix(char* fileName) {
+vector<vector<int> > readGraphFromMatrix(char const * fileName) {
 	/*we open the stream */
 	std::fstream fs ;
 	fs.open (fileName, std::fstream::in) ;
@@ -82,7 +82,7 @@ vector<vector<int> > readGraphFromMatrix(char* fileName) {
  * ...
  * n - 1 : ...
  */
-vector<vector<int> > readGraphFromAdjList(char* fileName) {
+vector<vector<int> > readGraphFromAdjList(char const * fileName) {
 	/*we open the stream */
 	std::fstream fs ;
 	fs.open(fileName, std::fstream::in) ;
