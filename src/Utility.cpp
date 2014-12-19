@@ -158,3 +158,15 @@ vector<vector<int> > generateGraph(int n, float p){
 	vector<vector<int> > ret = readGraphFromAdjList("./out.txt");
 	return ret;
 }
+
+void writeResult(char* fileName, vector<double> t, vector<int> n, char* fct) {
+	std::ostringstream fs ;
+	fs.open(fileName, std::fstream::out) ;
+
+	fs << "#" << fct << endl ;
+	fs << "# |V(G)| time" << endl ;
+	for(int i = 0 ; i < t.size() ; i++) {
+		fs << n[i] << " " << t[i] << endl ;
+	}
+
+}
