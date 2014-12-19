@@ -25,4 +25,7 @@ vector<vector<int> > readGraphFromAdjList(char* fileName) ;
 vector<vector<int> > generateRandomGraph(int n, int maxWeight = 10) ;
 
 vector<vector<int> > generateGraph(int n, float p);
+
+void writeResult(char* fileName, vector<double> t, vector<int> n, char* fct);
+
 #endif /* INCLUDE_UTILITY_H_ */
