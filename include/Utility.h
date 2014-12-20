@@ -16,7 +16,7 @@ using namespace std ;
 #define Matrix 1
 
 enum Algorithms { BRUTE, BT, MST, sat };
-enum Modes { weighted, discrete };
+enum Modes { WEIGHTEDMODE, DISCRETEMODE };
 
 vector<vector<int> > readGraphFromMatrix(char* fileName) ;
 

@@ -74,7 +74,7 @@ int newMain(int argc, const char* argv[]){
 				int w1 = strtol(argv[4], NULL, 10);
 				int w2 = strtol(argv[5], NULL, 10);
 
-				create(weighted, n, w1, w2, 1);
+				create(WEIGHTEDMODE, n, w1, w2, 1);
 			}
 		}
 		else if(strcmp(argv[2], "discrete") == 0){
@@ -84,7 +84,7 @@ int newMain(int argc, const char* argv[]){
 				int n = strtol(argv[3], NULL, 10);
 				int p = strtol(argv[4], NULL, 10);
 				
-				create(discrete, n, 0, 0, p);
+				create(DISCRETEMODE, n, 0, 0, p);
 			}
 		}
 		else printUsage();
@@ -92,6 +92,8 @@ int newMain(int argc, const char* argv[]){
 	else{
 		printUsage();		
 	}
+
+	return EXIT_SUCCESS;
 }
 
 int main(int argc, const char* argv[]) {
