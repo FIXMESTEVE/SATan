@@ -27,5 +27,6 @@ vector<vector<int> > generateRandomGraph(int n, int maxWeight = 10) ;
 vector<vector<int> > generateGraph(int n, float p);
 
 void writeResult(const char* fileName, vector<double> t, vector<int> n, const char* fct);
+void writeGraph(const char* fileName, vector<vector<int> graph) ;
 
 #endif /* INCLUDE_UTILITY_H_ */

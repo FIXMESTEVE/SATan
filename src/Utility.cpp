@@ -168,3 +168,18 @@ void writeResult(const char* fileName, vector<double> t, vector<int> n, const ch
 	}
 	fb.close() ;
 }
+
+void writeGraph(const char* fileName, vector<vector<int> graph) {
+	std::filebuf fb;
+	fb.open(fileName, std::ios::out) ;
+	std::ostream os(&fb);
+
+	os << "N = " << graph.size() << endl;
+	for(int i = 0 ; i < graph.size(); i++) {
+		os << i << " : " ;
+		for(int j = 0 ; j < graph[i].size() ; j++)
+			os << graph[i][j] << " " ;
+		os << endl;
+	}
+	fb.close();
+}
