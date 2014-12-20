@@ -1,7 +1,5 @@
 #include "../include/Algorithmic.h"
 #include "../include/Utility.h"
-#include <stdlib.h>
-#include <stdio.h>
 #include <vector>
 #include <iostream>
 #include <string.h>
@@ -97,23 +95,32 @@ int newMain(int argc, const char* argv[]){
 }
 
 int main(int argc, const char* argv[]) {
-	//generateGraph(9, 0.8);
-	//vector<vector<int> > graph = generateRandomGraph(10) ;
-	vector<vector<int> > graph = generateGraph(15,0.6) ;
-	for(int i=0; i<graph.size(); i++){
+	vector<vector<int> > graph = generateRandomGraph(10) ;
+	for(unsigned int i=0; i<graph.size(); i++){
 		cout << i << ": ";
 		for (int j =0; j<graph[i].size(); j++){
 			cout << graph[i][j] << " ";
 		}
 		cout << endl;
 	}
-	vector<int> res /*= bruteForce(graph) ;
-	for(unsigned int i = 0 ; i < res.size() ; i++)
-		printf("%d ", res[i]) */;
+	vector<int> res ;
 
-	res =  minimumSpanningTree(graph) ;
-	for(unsigned int i = 0 ; i < res.size() ; i++){}
-	//	printf("%d ", res[i]) ;
-	
+	cout << endl << "**************************" << endl; 
+
+	res = bruteForce(graph) ;
+	for(unsigned int i = 0 ; i < res.size() ; i++)
+		cout << res[i] << " " ;
+	cout << endl ;
+	cout << poids(graph, res, WEIGHTED,true) ;
+	cout << endl ;
+
+	cout << endl << "**************************" << endl; 
+
+	int resBT =  backTracking(graph) ;
+	cout << resBT ;
+	cout << endl ;
+
+	cout << endl << "**************************" << endl; 
+
 	return EXIT_SUCCESS ;
 }

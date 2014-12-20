@@ -14,11 +14,11 @@ project_code:
 	make gengraph;
 
 main: $(OBJ)/main.o $(OBJ)/Algorithmic.o $(OBJ)/Utility.o
-	$(CC) -std=c++11 -o main $(OBJ)/main.o $(OBJ)/Algorithmic.o $(OBJ)/Utility.o
+	$(CC) -std=c++11 -o SATan $(OBJ)/main.o $(OBJ)/Algorithmic.o $(OBJ)/Utility.o
 
 gengraph: $(OBJ)/gengraph.o
 	$(C) -lm -o gengraph $(OBJ)/gengraph.o
 
 clean:
 	rm -rf $(OBJ)/*.o;
-	rm -rf gengraph main;
+	rm -rf gengraph SATan;

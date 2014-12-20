@@ -1,9 +1,8 @@
 #include "../include/Utility.h"
-#include <stdlib.h>
-#include <time.h>
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <ctime>
 #include <sstream>
 
 #ifdef _MSC_VER // Windows
@@ -106,19 +105,15 @@ vector<vector<int> > readGraphFromAdjList(char const * fileName) {
 	/*for each nodes we extract the adjacency list*/
 	for(int i = 0 ; i < n ; i++) {
 		getline(fs,tmp) ;
-cout << "tmp == " << tmp << endl;
 		int index = 0 ;
 		int currNode = getInteger(tmp,&index) ;
-		cout << currNode << " : ";
 
 		int neighboor = getInteger(tmp,&index) ;
 		while(neighboor != -1) {
-			cout << neighboor << " ";
 			res[currNode][neighboor] = 1 ;
 			res[neighboor][currNode] = 1 ;
 			neighboor = getInteger(tmp,&index) ;
 		}
-		cout << endl;
 	}
 
 	return res ;
@@ -161,14 +156,15 @@ vector<vector<int> > generateGraph(int n, float p){
 	return ret;
 }
 
-void writeResult(char* fileName, vector<double> t, vector<int> n, char* fct) {
-	std::fstream fs ;
-	fs.open(fileName, std::fstream::out) ;
+void writeResult(const char* fileName, vector<double> t, vector<int> n, const char* fct) {
+	std::filebuf fb;
+	fb.open(fileName, std::ios::out) ;
+	std::ostream os(&fb);
 
-	fs << "#" << fct << endl ;
-	fs << "# |V(G)| time" << endl ;
+	os << "#" << fct << endl ;
+	os << "# |V(G)| time" << endl ;
 	for(int i = 0 ; i < t.size() ; i++) {
-		fs << n[i] << " " << t[i] << endl ;
+		os << n[i] << " " << t[i] << endl ;
 	}
-
+	fb.close() ;
 }
