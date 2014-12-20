@@ -9,17 +9,15 @@
 #define DISCRETE   1
 
 
-int poids(vector<vector<int> > graph, vector<int> solution, int type, bool verbose){
+int poids(vector<vector<int> > graph, vector<int> solution, int type){
 	int res = 0 ;
 	int index = graph.size() - 1;
 
 	if(type == WEIGHTED) {
 		for(int i = 0 ; i < index ; i++) {
 			res += graph[solution[i]][solution[i+1]] ;
-			if(verbose) cout << graph[solution[i]][solution[i+1]] << " ";
 		}
-		if(verbose) cout << graph[solution[index]][solution[0]] << endl ;
-		return res + graph[index][0] ;
+		return res + graph[solution[index]][solution[0]] ;
 	} 
 	else {
 		for(int i = 0 ; i < index ; i++) {
@@ -30,6 +28,8 @@ int poids(vector<vector<int> > graph, vector<int> solution, int type, bool verbo
 		if(graph[solution[index]][solution[0]] == 10 ) {
 			return res + 1 ;
 		}
+		else
+			return res ;
 	}
 }
 
@@ -95,40 +95,37 @@ vector<int> bruteForce(vector<vector<int> > graph, int type){
 
 //Backtracking implementation
 //algorithm from http://www.win.tue.nl/~kbuchin/teaching/2IL15/backtracking.pdf
-int backTracking(vector<vector<int> > graph, int type) {
+vector<int> backTracking(vector<vector<int> > graph, int type) {
 	vector<int> begin ;
 	for(int i = 0 ; i < graph.size() ; i++)
 		begin.push_back(i) ;
 
-	int minCost = poids(graph, begin, type) ;
-
-
-	return backTracking_(graph, type, begin, 0, 0, minCost);
+	return backTracking_(graph, type, begin, 0, 0, begin);
 }
 
-int backTracking_(vector<vector<int> > graph, int type, vector<int> A, int l, int lengthSoFar, int minCost) {
+vector<int> backTracking_(vector<vector<int> > graph, int type, vector<int> A, int l, int lengthSoFar, vector<int> Sol) {
 	int n = A.size() ;
-
+	int minCost = poids(graph, Sol);
 	if(l == n) {
 		int newCost = lengthSoFar + graph[A[n-1]][A[0]] ;
 		if(newCost < minCost)
-			minCost = newCost ;
+			Sol = A ;
 	}
 	else {
 		for(int i = l ; i < n ; i++) {
 			swap(&A, l, i) ;
 			int newLength = lengthSoFar + graph[A[l-1]][A[l]] ;
 			if(newLength <= minCost) {
-				int newCost = backTracking_(graph, type, A, l+1, newLength, minCost) ;
-				if(newCost < minCost) {
-					minCost = newCost ;
+				vector<int> newSol = backTracking_(graph, type, A, l+1, newLength, Sol) ;
+				if(poids(graph, newSol) < minCost) {
+					Sol = newSol ;
 				}
 			}
 			swap(&A, l, i) ;
 		}
 	}
 
-	return minCost ;
+	return Sol ;
 }
 
 int edgeWeight(vector<int> edge, vector<vector<int> > graph) {
