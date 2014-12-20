@@ -4,6 +4,7 @@
 #include <fstream>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 #ifdef _MSC_VER // Windows
 #include <process.h>
@@ -161,7 +162,7 @@ vector<vector<int> > generateGraph(int n, float p){
 }
 
 void writeResult(char* fileName, vector<double> t, vector<int> n, char* fct) {
-	std::ostringstream fs ;
+	std::fstream fs ;
 	fs.open(fileName, std::fstream::out) ;
 
 	fs << "#" << fct << endl ;
