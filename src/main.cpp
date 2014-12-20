@@ -34,9 +34,10 @@ void useDiscrete(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("discrete_brute_") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "brute for discrete") ;
 		}
-		string fileName("discrete_brute") ;
-		writeResult(fileName.c_str(), t, n, "brute for discrete") ;
 	}
 	else if(ALGO == BT) {
 		for(int i = 10 ; i <= 100 ; i = i+10) {
@@ -52,9 +53,10 @@ void useDiscrete(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("discrete_bt_") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "backTracking for discrete") ;
 		}
-		string fileName("discrete_bt") ;
-		writeResult(fileName.c_str(), t, n, "backTracking for discrete") ;
 
 	}
 	else if(ALGO == MST) {
@@ -71,9 +73,10 @@ void useDiscrete(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("discrete_mst_") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "minimumSpanningTree for discrete") ;
 		}
-		string fileName("discrete_mst") ;
-		writeResult(fileName.c_str(), t, n, "minimumSpanningTree for discrete") ;
 
 	}
 	else if (ALGO == sat) {
@@ -90,9 +93,10 @@ void useDiscrete(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("discrete_sat_") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "sat for discrete") ;
 		}
-		string fileName("discrete_sat") ;
-		writeResult(fileName.c_str(), t, n, "sat for discrete") ;
 
 	}
 }
@@ -114,9 +118,10 @@ void useWeighted(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("weighted_brute_") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "brute for weighted") ;
 		}
-		string fileName("weighted_brute") ;
-		writeResult(fileName.c_str(), t, n, "brute for weighted") ;
 	}
 	else if(ALGO == BT) {
 		for(int i = 10 ; i <= 100 ; i = i+10) {
@@ -132,9 +137,10 @@ void useWeighted(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("weighted_bt") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "backTracking for weighted") ;
 		}
-		string fileName("weighted_bt") ;
-		writeResult(fileName.c_str(), t, n, "backTracking for weighted") ;
 	}
 	else if(ALGO == MST) {
 		for(int i = 10 ; i <= 100 ; i = i+10) {
@@ -150,9 +156,10 @@ void useWeighted(Algorithms ALGO){
 			}
 			res = res / 10;
 			t.push_back(res);
+			string fileName("weighted_mst_") ;
+			fileName.append(to_string(i)) ;
+			writeResult(fileName.c_str(), t, n, "mst for weighted") ;
 		}
-		string fileName("weighted_mst") ;
-		writeResult(fileName.c_str(), t, n, "mst for weighted") ;
 	}
 }
 

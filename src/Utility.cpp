@@ -157,22 +157,21 @@ vector<vector<int> > generateGraph(int n, float p){
 }
 
 void writeResult(const char* fileName, vector<double> t, vector<int> n, const char* fct) {
-	std::filebuf fb;
-	fb.open(fileName, std::ios::out) ;
-	std::ostream os(&fb);
+	ofstream os ;
+	os.open(fileName) ;
 
 	os << "#" << fct << endl ;
 	os << "# |V(G)| time" << endl ;
 	for(int i = 0 ; i < t.size() ; i++) {
 		os << n[i] << " " << t[i] << endl ;
 	}
-	fb.close() ;
+	os.close() ;
+	cout << "done writing results" << endl ;
 }
 
 void writeGraph(const char* fileName, vector<vector<int> > graph) {
-	std::filebuf fb;
-	fb.open(fileName, std::ios::out) ;
-	std::ostream os(&fb);
+	ofstream os ;
+	os.open(fileName) ;
 
 	os << "N = " << graph.size() << endl;
 	for(int i = 0 ; i < graph.size(); i++) {
@@ -181,7 +180,7 @@ void writeGraph(const char* fileName, vector<vector<int> > graph) {
 			os << graph[i][j] << " " ;
 		os << endl;
 	}
-	fb.close();
+	os.close();
 }
 
 void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
@@ -190,8 +189,9 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 	nbVar += k * n ; //taille du cycle * nb d'arêtes de poids 10 ;
 	int nbC = n + (n * (n * (n-1) / 2)) ;
 
-	std::filebuf fb;
-	fb.open(fileName, std::ios::out) ;
-	std::ostream os(&fb);
+	ofstream os ;
+	os.open(fileName) ;
 	os << "p cnf " << nbVar << " " << nbC ;
+
+	os.close() ;
 }

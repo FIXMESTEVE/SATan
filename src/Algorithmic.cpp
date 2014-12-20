@@ -56,13 +56,6 @@ vector<int> bruteForce(vector<vector<int> > graph, int type){
 	solution[n-1] = bestSol[n-1] = n-1 ;
 	int min = poids(graph, solution, type);
 
-	int cpt = 0 ;
-	long int NbPerm = factorielle(n-1) ;
-
-	time_t t ;
-	time(&t) ;
-	printf("%d/%ld\n",++cpt,NbPerm) ;
-
 	unsigned int i = 1 ;
 	while(i < ((unsigned int) n - 1)){
 		--p[i];
@@ -70,14 +63,6 @@ vector<int> bruteForce(vector<vector<int> > graph, int type){
 		swap(&solution, i+1, j+1);
 
 		int tmp = poids(graph, solution, type);
-		++cpt ;
-
-		time_t t2 ;
-		time(&t2) ;
-		if(difftime(t2,t) >= 1.) {
-			t = t2 ;
-			printf("%d/%ld\n",cpt,NbPerm) ;
-		}
 
 		if (tmp < min){
 			min = tmp;
