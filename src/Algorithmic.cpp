@@ -2,6 +2,7 @@
 //algorithm from www.quickperm.org
 
 #include "../include/Algorithmic.h"
+#include "../include/Utility.h"
 #include <iostream>
 #include <fstream>
 
@@ -227,4 +228,12 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 	return cycle ;
 }
 
-int SAT(vector<vector<int> > graph){}
+int SAT(vector<vector<int> > graph){
+	for(int i = 0 ; i < graph.size(); i++) {
+		graphToSAT("tmpSAT", graph, i) ;
+		/* TODO : appliquer glucose à tmpSAT*/
+		/* TODO : parser la sortie de glucose pour savoir si le résultat est oui*/
+		/* TODO : si le résultat est oui, retourner i*/
+	}
+	return graph.size() ;
+}
