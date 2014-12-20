@@ -2,7 +2,8 @@
 #include "../include/Utility.h"
 #include <vector>
 #include <iostream>
-#include <string.h>
+#include <cstring>
+#include <string>
 
 using namespace std ;
 
@@ -17,19 +18,145 @@ void printUsage(){
 }
 
 void useDiscrete(Algorithms ALGO){
-	//TODO
+	vector<double> t;
+	vector<int> n;
+	if(ALGO == BRUTE) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateGraph(i,0.6) ;
+				clock_t t;
+		  		t = clock();
+		  		bruteForce(graph, DISCRETE);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("discrete_brute") ;
+		writeResult(fileName.c_str(), t, n, "brute for discrete") ;
+	}
+	else if(ALGO == BT) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateGraph(i,0.6) ;
+				clock_t t;
+		  		t = clock();
+		  		backTracking(graph, DISCRETE);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("discrete_bt") ;
+		writeResult(fileName.c_str(), t, n, "backTracking for discrete") ;
+
+	}
+	else if(ALGO == MST) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateGraph(i,0.6) ;
+				clock_t t;
+		  		t = clock();
+		  		minimumSpanningTree(graph);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("discrete_mst") ;
+		writeResult(fileName.c_str(), t, n, "minimumSpanningTree for discrete") ;
+
+	}
+	else if (ALGO == sat) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateGraph(i,0.6) ;
+				clock_t t;
+		  		t = clock();
+		  		SAT(graph);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("discrete_sat") ;
+		writeResult(fileName.c_str(), t, n, "sat for discrete") ;
+
+	}
 }
 
 void useWeighted(Algorithms ALGO){
-	//TODO
+	vector<double> t;
+	vector<int> n;
+	if(ALGO == BRUTE) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateRandomGraph(i,i*10) ;
+				clock_t t;
+		  		t = clock();
+		  		bruteForce(graph);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("weighted_brute") ;
+		writeResult(fileName.c_str(), t, n, "brute for weighted") ;
+	}
+	else if(ALGO == BT) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateRandomGraph(i,i*10) ;
+				clock_t t;
+		  		t = clock();
+		  		backTracking(graph);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("weighted_bt") ;
+		writeResult(fileName.c_str(), t, n, "backTracking for weighted") ;
+	}
+	else if(ALGO == MST) {
+		for(int i = 10 ; i <= 100 ; i = i+10) {
+			n.push_back(i);
+			double res = 0 ;
+			for(int j = 0 ; j < 10 ; j++) {
+				vector<vector<int> > graph = generateRandomGraph(i,i*10) ;
+				clock_t t;
+		  		t = clock();
+		  		minimumSpanningTree(graph);
+		  		t = clock() - t;
+		  		res += (double) ((float)t)/CLOCKS_PER_SEC;
+			}
+			res = res / 10;
+			t.push_back(res);
+		}
+		string fileName("weighted_mst") ;
+		writeResult(fileName.c_str(), t, n, "mst for weighted") ;
+	}
 }
 
-void create(Modes MODE, int n, int w1, int w2, int p){
-	//TODO
-	//when using weighted, use n, w1 and w2 parameters
-	//when using discrete, use n and p parameters
-}
-int newMain(int argc, const char* argv[]){
+int main(int argc, const char* argv[]){
 	if(argc < 2)
 		printUsage();		
 	else if(strcmp(argv[1], "discrete") == 0){
@@ -63,66 +190,9 @@ int newMain(int argc, const char* argv[]){
 		}
 		else printUsage();
 	}
-	else if(strcmp(argv[1], "create") == 0){
-		if(argc < 3)
-			printUsage();
-		else if(strcmp(argv[2], "weighted") == 0){
-			if(argc < 6)
-				printUsage();
-			else{
-				int n = strtol(argv[3], NULL, 10);
-				int w1 = strtol(argv[4], NULL, 10);
-				int w2 = strtol(argv[5], NULL, 10);
-
-				create(WEIGHTEDMODE, n, w1, w2, 1);
-			}
-		}
-		else if(strcmp(argv[2], "discrete") == 0){
-			if(argc < 5)
-				printUsage();
-			else{
-				int n = strtol(argv[3], NULL, 10);
-				int p = strtol(argv[4], NULL, 10);
-				
-				create(DISCRETEMODE, n, 0, 0, p);
-			}
-		}
-		else printUsage();
-	}
 	else{
 		printUsage();		
 	}
 
 	return EXIT_SUCCESS;
-}
-
-int main(int argc, const char* argv[]) {
-	vector<vector<int> > graph = generateRandomGraph(10) ;
-	for(unsigned int i=0; i<graph.size(); i++){
-		cout << i << ": ";
-		for (int j =0; j<graph[i].size(); j++){
-			cout << graph[i][j] << " ";
-		}
-		cout << endl;
-	}
-	vector<int> res ;
-
-	cout << endl << "**************************" << endl; 
-
-	res = bruteForce(graph) ;
-	for(unsigned int i = 0 ; i < res.size() ; i++)
-		cout << res[i] << " " ;
-	cout << endl ;
-	cout << poids(graph, res, WEIGHTED,true) ;
-	cout << endl ;
-
-	cout << endl << "**************************" << endl; 
-
-	int resBT =  backTracking(graph) ;
-	cout << resBT ;
-	cout << endl ;
-
-	cout << endl << "**************************" << endl; 
-
-	return EXIT_SUCCESS ;
 }

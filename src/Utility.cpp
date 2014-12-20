@@ -147,7 +147,7 @@ vector<vector<int> > generateGraph(int n, float p){
 	std::string s(ss.str());
 	*/
 
-	nStr = std::to_string(n);
+		nStr = std::to_string(n);
 	pStr = std::to_string(p);
 
 	std::string cmd = "./gengraph -format list random "+ nStr + " "+ pStr +" > out.txt";
@@ -169,7 +169,7 @@ void writeResult(const char* fileName, vector<double> t, vector<int> n, const ch
 	fb.close() ;
 }
 
-void writeGraph(const char* fileName, vector<vector<int> graph) {
+void writeGraph(const char* fileName, vector<vector<int> > graph) {
 	std::filebuf fb;
 	fb.open(fileName, std::ios::out) ;
 	std::ostream os(&fb);
@@ -182,4 +182,16 @@ void writeGraph(const char* fileName, vector<vector<int> graph) {
 		os << endl;
 	}
 	fb.close();
+}
+
+void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
+	int n = graph.size() ;
+	int nbVar = (n * (n-1) / 2) ; //nb d'arêtes x taille du cycle <=> nb de x_i,u,v
+	nbVar += k * n ; //taille du cycle * nb d'arêtes de poids 10 ;
+	int nbC = n + (n * (n * (n-1) / 2)) ;
+
+	std::filebuf fb;
+	fb.open(fileName, std::ios::out) ;
+	std::ostream os(&fb);
+	os << "p cnf " << nbVar << " " << nbC ;
 }

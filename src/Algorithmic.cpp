@@ -241,3 +241,5 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 	}
 	return cycle ;
 }
+
+int SAT(vector<vector<int> > graph){}
