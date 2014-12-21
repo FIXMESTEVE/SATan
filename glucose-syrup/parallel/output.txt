@@ -1,0 +1,49 @@
+c
+c This is glucose-syrup 4.0 (glucose in many threads) --  based on MiniSAT (Many thanks to MiniSAT team)
+c
+c WARNING: for repeatability, setting FPU to use double precision
+c ========================================[ Problem Statistics ]===========================================
+c |                                                                                                       |
+c |  Number of variables:             3                                                                   |
+c |  Number of clauses:               2                                                                   |
+c |  Parse time:                   0.00 s                                                                 |
+c |                                                                                                       |
+c |  Eliminated clauses:           0.00 Mb                                                                |
+c |  Simplification time:          0.00 s                                                                 |
+c |                                                                                                       |
+c |  Automatic Adjustement of the number of solvers. MaxMemory= 3000, MaxCores=  4.                       |
+c |  One Solver is taking 2.56Mb... Let's take 4 solvers for this run (max 40% of the maxmemory).       |
+c |  Generating clones                                                                                    |
+c |  all clones generated. Memory =   8.39Mb.                                                             |
+c ========================================================================================================|
+c last restart ## conflicts  :  0 0 
+c Thread 0 is 100% pure glucose! First thread to finish! (SAT answer).
+c Total Memory so far : 168.41Mb
+c
+c real time : 0.00367713 s
+c cpu time  : 0 s
+c
+c
+c
+c |---------------------------------------- FINAL STATS --------------------------------------------------|
+c
+c |---------------|------------|------------|------------|------------|-----------------|
+c | Threads       |          0 |          1 |          2 |          3 |      Total      |
+c |---------------|------------|------------|------------|------------|-----------------|
+c | Conflicts     |          0 |          0 |          0 |          0 |               0 |
+c | Exported      |          0 |          0 |          0 |          0 |               0 |
+c | Imported      |          0 |          0 |          0 |          0 |               0 |
+c | Good          |          0 |          0 |          0 |          0 |               0 |
+c | Purge         |          0 |          0 |          0 |          0 |               0 |
+c | Promoted      |          0 |          0 |          0 |          0 |               0 |
+c | Remove imp    |          0 |          0 |          0 |          0 |               0 |
+c | Blocked Reuse |          0 |          0 |          0 |          0 |               0 |
+c | Orig seen     |          0 |          0 |          0 |          0 |                 |
+c | Unaries       |          0 |          0 |          0 |          0 |                 |
+c | Binaries      |          0 |          0 |          0 |          0 |                 |
+c | Glues         |          0 |          0 |          0 |          0 |                 |
+c | Hamming       |      X     |          0 |          0 |          0 |               0 |
+c |---------------|------------|------------|------------|------------|-----------------|
+
+s SATISFIABLE
+v  0

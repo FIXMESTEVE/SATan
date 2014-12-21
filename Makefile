@@ -12,6 +12,7 @@ project_code:
 	mv *.o obj;
 	make main;
 	make gengraph;
+	cd glucose-syrup/parallel && make rs && mv glucose-syrup_static ../../. && cd ../../.;
 
 main: $(OBJ)/main.o $(OBJ)/Algorithmic.o $(OBJ)/Utility.o
 	$(CC) -std=c++11 -o SATan $(OBJ)/main.o $(OBJ)/Algorithmic.o $(OBJ)/Utility.o
@@ -21,4 +22,5 @@ gengraph: $(OBJ)/gengraph.o
 
 clean:
 	rm -rf $(OBJ)/*.o;
-	rm -rf gengraph SATan;
+	rm -rf gengraph SATan glucose-syrup_static;
+	cd glucose-syrup/parallel && make clean;
