@@ -5,6 +5,7 @@
 #include "../include/Utility.h"
 #include <iostream>
 #include <fstream>
+#include <string.h>
 
 #define WEIGHTED   0
 #define DISCRETE   1
@@ -230,10 +231,23 @@ vector<int> minimumSpanningTree(vector<vector<int> > graph) {
 
 int SAT(vector<vector<int> > graph){
 	for(int i = 0 ; i < graph.size(); i++) {
-		graphToSAT("tmpSAT", graph, i) ;
-		/* TODO : appliquer glucose à tmpSAT*/
-		/* TODO : parser la sortie de glucose pour savoir si le résultat est oui*/
-		/* TODO : si le résultat est oui, retourner i*/
+	  graphToSAT("tmpSAT", graph, i) ;
+	 
+	  FILE *fpipe;
+	  char *command = "./glucose-syrup_static tmpSAT -model | grep \"s SATISFIABLE\"";
+	  char path[1035];
+	  if(0 == (fpipe = (FILE*)popen(command,"r"))){
+	    printf("Failed to run glucose!\n");
+	    exit(1);
+	  }
+
+	
+	  while(fgets(path, sizeof(path)-1, fpipe) != NULL ){
+	    if(strcmp(path, "s SATISFIABLE") == 0)
+	      return i;
+	  }
+	  
 	}
 	return graph.size() ;
 }
+
