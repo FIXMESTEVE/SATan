@@ -32,14 +32,3 @@ void writeGraph(const char* fileName, vector<vector<int> > graph) ;
 void graphToSAT(const char* fileName, vector<vector<int> > graph, int k);
 
 #endif /* INCLUDE_UTILITY_H_ */
-
-/*
-	int nbC = n ;
-	nbC += n * (m * (m-1) / 2) ;
-	nbC += m * (n * (n-1) / 2) ;
-	nbC += n * m * 2 ;
-	nbC += n * k ;
-	nbC += k ;
-	nbC += n * (k * (k-1) / 2) ;
-	nbC += k ;
-	*/
