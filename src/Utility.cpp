@@ -195,7 +195,7 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 	nbC += n * k ;
 	nbC += k ;
 	nbC += n * (k * (k-1) / 2) ;
-	nbC += k ;
+	nbC += k * n * (n-1)/2 ;
 
 	int cpt = 1 ;
 	vector<vector<vector<int> > > var1 ;
@@ -205,8 +205,12 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 		for(int i2 = 1 ; i2 <= n ; i2++) {
 			vector<int> tmp2 ;
 			for(int i3 = 1 ; i3 <= n ; i3++) {
-				tmp2.push_back(cpt) ;
-				cpt++ ;
+				if(i3 > i2) {
+					tmp2.push_back(cpt) ;
+					cpt++ ;
+				}
+				else
+					tmp2.push_back(0);
 			}
 			tmp1.push_back(tmp2) ;
 		}
@@ -230,26 +234,31 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 	/* on commence à générer la formule sat*/
 	/*	*****	*/
 
+	cpt = 0;
 	/*à chaque position une arête*/
 	for(int p = 0 ; p < n ; p++) { 
 		for(int u = 0 ; u < n -1; u++) {
 			for(int v = u + 1 ; v < n ; v++) {
 				os << var1[p][u][v] << " ";
 			}
-			os << "0" << endl; 
 		}
+		os << "0" << endl; 
+		cpt++ ;
 	}
 
+	cpt = 0;
 	/* à cahque position une seul arête*/
 	for(int p = 0 ; p < n ; p++) {
 		for(int u1 = 0 ; u1 < n -1; u1++) {
 			for(int v1 = u1 + 1 ; v1 < n ; v1++ ) {
 				int u2 = u1 ;
 				for(int v2 = v1+1 ; v2 < n ; v2++) {
+					cpt++ ;
 					os << "-" << var1[p][u1][v1] << " " << "-" << var1[p][u2][v2] << " 0" << endl;
 				}
-				for(u2 = u1 + 1; u2 < n ; u2++) {
-					for(int v2 = 0; v2 < n ; v2++) {
+				for(u2 = u1 + 1; u2 < n -1; u2++) {
+					for(int v2 = u2+1; v2 < n ; v2++) {
+						cpt++ ;
 						os << "-" << var1[p][u1][v1] << " " << "-" << var1[p][u2][v2] << " 0" << endl;
 					}
 				}
@@ -257,17 +266,20 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 		}
 	}
 
+	cpt = 0 ;
 	/* à chaque arête une position au max*/
 	for(int u = 0; u < n -1; u++) {
 		for(int v = u+1; v < n ; v++) {
 			for(int p1 = 0 ; p1 < n - 1; p1++) {
 				for(int p2 = p1 + 1; p2 < n ; p2++){
+					cpt++;
 					os << "-" << var1[p1][u][v] << " " << "-" << var1[p2][u][v] << " 0" << endl;
 				}
 			}
 		}
 	}
 
+	cpt = 0 ;
 	/* on veut un cycle */
 	for(int p = 0 ; p < n ; p++) {
 		for(int u = 0 ; u < n -1; u++) {
@@ -282,6 +294,7 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 					}
 				} 
 				os << "0" << endl ;
+				cpt++;
 				os << "-" << var1[p][u][v] << " ";
 				for(int w = 0 ; w < n ; w++) {
 					if(w < u) {
@@ -292,44 +305,54 @@ void graphToSAT(const char* fileName, vector<vector<int> > graph, int k) {
 					}
 				} 
 				os << "0" << endl ;
+				cpt++;
 			}
 		}
 	}
 
+	cpt = 0 ;
 	/* soit en position p il n'y a pas d'arête de poids 10 soit x_ij est vrai*/ 
 	for(int p = 0 ; p < n ; p++) {
 		for( int j = 0 ; j < k ; j++) {
 			os << "-" << var2[j][p] << " " ;
 			for(int u = 0 ; u < n -1; u++) {
-				for(int v = u ; v < n ; v++) {
-					os << var1[p][u][v] << " " ;
+				for(int v = u + 1; v < n ; v++) {
+					if(graph[u][v] == 10)
+						os << var1[p][u][v] << " " ;
 				}
 			}
+			cpt++;
 			os << "0" << endl ;
 		}
 	}
 
+	cpt = 0;
 	/* pour chaque j au moins une p valide, on a bien k arête de poids  10*/
 	for(int j = 0 ; j < k ; j++) {
 		for(int p = 0 ; p < n ; p++) {
 			os << var2[j][p] << " ";
 		}
+		cpt++;
 		os << "0" << endl;
 	}
 
+	cpt = 0;
 	/*pour chaque position de poids 10, on a au plus une arête*/
 	for(int p = 0 ; p < n ; p++ ) {
 		for(int j1 = 0 ; j1 < k -1; j1++) {
 			for(int j2 = j1 + 1 ; j2 < k ; j2++) {
+				cpt++;
 				os << "-" << var2[j1][p] << " " << "-" << var2[j2][p] << " 0" << endl ;
 			}
 		}
 	}
 
+	cpt = 0 ;
 	/* pour chaque position de poids 10 on a au plus une arête dans le cycle*/  
 	for(int p1 = 0 ; p1 < n -1; p1++) {
 		for(int p2 = p1 + 1 ; p2 < n ; p2++) {
 			for(int j = 0 ; j < k ; j++) {
+				cpt++;
 				os << "-" << var2[j][p1] << " " << "-" << var2[j][p2] << " 0" << endl ;
 			}
 		}
