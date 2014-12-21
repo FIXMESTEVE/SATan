@@ -243,8 +243,10 @@ int SAT(vector<vector<int> > graph){
 
 	
 	  while(fgets(path, sizeof(path)-1, fpipe) != NULL ){
-	    if(strcmp(path, "s SATISFIABLE") == 0)
+	    if(strcmp(path, "s SATISFIABLE") == 0){
+	      printf("Satisfiable !\n");
 	      return i;
+	    }
 	  }
 	  
 	}

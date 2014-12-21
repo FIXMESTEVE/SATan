@@ -22,5 +22,5 @@ gengraph: $(OBJ)/gengraph.o
 
 clean:
 	rm -rf $(OBJ)/*.o;
-	rm -rf gengraph SATan glucose-syrup_static;
+	rm -rf gengraph SATan glucose-syrup_static weighted* discrete* out.txt tmpSAT;
 	cd glucose-syrup/parallel && make clean;
