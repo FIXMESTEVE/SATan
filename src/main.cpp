@@ -8,13 +8,10 @@
 using namespace std ;
 
 void printUsage(){
-	cout<<"Usage: main mode type"<<endl;
-	cout<<"Available modes: discrete, weighted, custom" << endl;
+	cout<<"Usage: ./SATan mode type"<<endl;
+	cout<<"Available modes: discrete, weighted" << endl;
 	cout<<"Available types for discrete: brute, bt, mst, sat" << endl;
 	cout<<"Available types for weighted: brute, bt, mst" << endl;
-	cout<<"Available types for custom: " << endl;
-	cout<<"		weighted n w1 w2 (n: number of nodes, p1: minimum weight, p2: maximum weight)"<<endl;
-	cout<<"		discrete n p (n: number of nodes, p: probability of pairing between 2 nodes)"<<endl;
 }
 
 void useDiscrete(Algorithms ALGO){
